@@ -27,7 +27,7 @@ def build_dataset(total_sample_num):
 
 # 构建自己的神经网络
 class TensorModel(nn.Module):
-    def __init__(self,input_size): # 只需要指定输入的维度 因为输出的维度是1
+    def __init__(self,input_size): # 只需要指定输入的维度 因为输出的维度是5
         super(TensorModel, self).__init__()
         self.layer1 = nn.Linear(input_size, 5)
         #self.act = nn.Sigmoid()
@@ -40,7 +40,7 @@ class TensorModel(nn.Module):
 # 训练模型
 
 def main():
-    trainCount = 20 # 共训练20轮
+    trainCount = 50 # 共训练20轮
     trainCount_pre = 20 # 每次训练的样本数
     total_sample_num = 5000 # 测试集的大小
     lr = 0.001 # 学习率
