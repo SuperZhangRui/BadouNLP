@@ -29,7 +29,7 @@ def build_dataset(total_sample_num):
 class TensorModel(nn.Module):
     def __init__(self,input_size): # 只需要指定输入的维度 因为输出的维度是5
         super(TensorModel, self).__init__()
-        self.layer1 = nn.Linear(input_size, 5)
+        self.layer1 = nn.Linear(input_size, input_size)
         #self.act = nn.Sigmoid()
     def forward(self, input,y_true=None): # 用于计算预测值
         x = self.layer1(input)
