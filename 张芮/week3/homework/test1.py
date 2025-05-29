@@ -14,7 +14,7 @@ class TorchModel(nn.Module):
         # 池化成
         self.pool = nn.AvgPool1d(word_length)
         # 2. 线性层
-        self.layer1 = nn.Linear(vector_num, word_length)
+        self.layer1 = nn.RNN(vector_num, word_length, batch_first=True)
         ## 损失函数
         self.loss = nn.functional.cross_entropy
     def forward(self,x,y=None):
@@ -22,11 +22,11 @@ class TorchModel(nn.Module):
         x= x.transpose(1, 2)
         x = self.pool(x)
         x = x.squeeze()
-        x = self.layer1(x)
+        o,h = self.layer1(x)
         if y is not None:
-            return self.loss(x,y)
+            return self.loss(o,y)
         else:
-            return x
+            return h
 # 生成词库表
 def build_vocab():
     ku = "abcdfeghigklmnopqrstuvwxyz012"
