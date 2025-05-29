@@ -12,19 +12,20 @@ class TorchModel(nn.Module):
         # 1. embddding 层
         self.embedding = nn.Embedding(vocab_size, vector_num, padding_idx=0)
         # 池化成
-        self.pool = nn.AvgPool1d(word_length)
+        #self.pool = nn.AvgPool1d(word_length)
         # 2. 线性层
         self.layer1 = nn.RNN(vector_num, word_length, batch_first=True)
         ## 损失函数
         self.loss = nn.functional.cross_entropy
     def forward(self,x,y=None):
         x = self.embedding(x)
-        x= x.transpose(1, 2)
-        x = self.pool(x)
-        x = x.squeeze()
+        #x= x.transpose(1, 2)
+        #x = self.pool(x)
+        #x = x.squeeze()
         o,h = self.layer1(x)
+        h = h.squeeze()
         if y is not None:
-            return self.loss(o,y)
+            return self.loss(h,y)
         else:
             return h
 # 生成词库表
@@ -75,7 +76,7 @@ def evaluate(model, vocab, sample_length,word_length):
 # 开始训练模型
 
 def mian():
-    epoch_num = 10  # 训练轮数
+    epoch_num = 20  # 训练轮数
     batch_size = 20  # 每次训练样本个数
     train_sample = 500  # 每轮训练总共训练的样本总数
     char_dim = 20  # 每个字的维度
